@@ -1,45 +1,19 @@
 import js from "@eslint/js";
-import { defineConfig } from "eslint/config";
 import globals from "globals";
 import tseslint from "typescript-eslint";
+import json from "@eslint/json";
+import markdown from "@eslint/markdown";
+import css from "@eslint/css";
+import { defineConfig } from "eslint/config";
+
 
 export default defineConfig([
-    { files: ["**/*.{js,mjs,cjs,ts}"] },
-    {
-        files: ["**/*.{js,mjs,cjs,ts}"],
-        languageOptions: {
-            globals: globals.browser
-        }
-    },
-    {
-        files: ["**/*.{js,mjs,cjs,ts}"],
-        plugins: { js },
-        extends: ["js/recommended"],
-        rules: {
-            // Indentação: 2 espaços
-            "indent": ["error", 4],
-
-            // Ponto e vírgula obrigatório no final das declarações
-            "semi": ["error", "always"],
-
-            // Uso de aspas duplas
-            "quotes": ["error", "double"],
-
-            // Regras de espaçamento
-            "no-trailing-spaces": "error",
-            "space-before-blocks": ["error", "always"],
-            "space-before-function-paren": ["error", { "anonymous": "always", "named": "never", "asyncArrow": "always" }],
-            "space-in-parens": ["error", "never"],
-            "space-infix-ops": "error",
-            "object-curly-spacing": ["error", "always"],
-            "comma-spacing": ["error", { "before": false, "after": true }],
-            "key-spacing": ["error", { "beforeColon": false, "afterColon": true }],
-
-            // Final de linha consistente
-            "eol-last": ["error", "always"],
-
-            "@typescript-eslint/no-empty-object-type": ["error", { allowInGenericTypeArguments: false }],
-        }
-    },
-    tseslint.configs.recommended,
+  { files: ["**/*.{js,mjs,cjs,ts}"], plugins: { js }, extends: ["js/recommended"] },
+  { files: ["**/*.{js,mjs,cjs,ts}"], languageOptions: { globals: globals.node } },
+  tseslint.configs.recommended,
+  { files: ["**/*.json"], plugins: { json }, language: "json/json", extends: ["json/recommended"] },
+  { files: ["**/*.jsonc"], plugins: { json }, language: "json/jsonc", extends: ["json/recommended"] },
+  { files: ["**/*.json5"], plugins: { json }, language: "json/json5", extends: ["json/recommended"] },
+  { files: ["**/*.md"], plugins: { markdown }, language: "markdown/commonmark", extends: ["markdown/recommended"] },
+  { files: ["**/*.css"], plugins: { css }, language: "css/css", extends: ["css/recommended"] },
 ]);
